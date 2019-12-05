@@ -29,42 +29,136 @@ var path2InPoints = turnPathToCoordinatePoints(path2, origin);
 
 // console.log(path1InPoints);
 
-var point1 = { 
-    x: 5,
-    y: 0
-}
-
-// var point2 = {
-//     from: { x: 5, y: 10 },
-//     to: { x: 5, y: -10 },
-//     isVertical: true 
+// var point1 = { 
+//     x: 13,
+//     y: 11
 // }
-var line = { from: { x: 0, y: 0 },
-    to: { x: 10, y: 0 },
-    isVertical: false 
-}
-var n = doesPointLieOnLine(point1, line);
 
-// var n = findIntersectionPointOfLines(point1, point2);
-console.log(n);
+// var intersectionPoints = [
+//     {x: 9, y: 8},
+//     {x: 13, y: 11}
+// ];
 
-// var intersectionPoints = findAllIntersectionPointsOfPaths(path1InPoints, path2InPoints);
-// console.log(intersectionPoints);
+// var lines = [
+//     { 
+//         from: { x: 0, y: 0 },
+//         to: { x: 9, y: 0 },
+//         isVertical: false 
+//     },
+//     { 
+//         from: { x: 9, y: 0 },
+//         to: { x: 9, y: 13 },
+//         isVertical: true 
+//     },
+//     { 
+//         from: { x: 9, y: 13 },
+//         to: { x: 13, y: 13 },
+//         isVertical: false 
+//     },
+//     { 
+//         from: { x: 13, y: 13 },
+//         to: { x: 13, y: 10 },
+//         isVertical: true 
+//     },
+//     { 
+//         from: { x: 13, y: 10 },
+//         to: { x: 16, y: 10 },
+//         isVertical: false 
+//     },
+// ]
+
 // var map = convertPointsArrayToMap(intersectionPoints);
 
+// var line = { 
+//     from: { x: 13, y: 13 },
+//     to: { x: 13, y: 10 },
+//     isVertical: true 
+// }
+// var n = getDistanceFromCornerToIntersectionPoint(point1, line);
+
+// var n = findIntersectionPointOfLines(point1, point2);
+// console.log(n);
+
+//////
+var intersectionPoints = findAllIntersectionPointsOfPaths(path1InPoints, path2InPoints);
+var map = convertPointsArrayToMap(intersectionPoints);
+// findStepsToIntersections(intersectionPoints, path1InPoints, map, true);
+findStepsToIntersections(intersectionPoints, path2InPoints, map, true);
+
+
+//////
+
+console.log(map);
+// map.forEach((point, key, map)=>{
+//     console.log(point)
+// });
+// findStepsToIntersections(intersectionPoints, lines, map, );
+
+// console.log(map);
 // var pointsWithDistance = getManhattanDistanceOfAListOfPoints(intersectionPoints);
 // var finalPoint = findClosestPointOfListOfData(pointsWithDistance);
 
 // console.log(map.size);
 
 
+function findStepsToIntersections(intersectionPoints, lines, intersectionsMap, isFirst){
+    var line;
+    var intersectionObj;
+    var currentSteps = 0;
+    var stepsToIntersection = 0;
+    var mapKey;
+
+    for (var i in lines) {
+        line = lines[i];
+        intersectionObj = doesLineHaveIntersectionPoint(intersectionPoints, line);
+        if (intersectionObj.lie){
+            stepsToIntersection = currentSteps + getDistanceFromCornerToIntersectionPoint(intersectionObj.point, line);
+            mapKey = getMapKey(intersectionObj.point);
+            if (isFirst)
+                intersectionsMap.get(mapKey).stepsToIntersection = stepsToIntersection;
+            else
+            intersectionsMap.get(mapKey).stepsToIntersection += stepsToIntersection;
+            // intersectionObj.point.stepsToIntersection1 = stepsToIntersection;
+            // intersectionsMap.set(mapKey, intersectionObj);
+        }
+        currentSteps += getLineLength(line);
+    }
+}
+
+function getLineLength(line){
+    if (line.isVertical) {
+        return Math.abs(line.from.y - line.to.y);
+    }
+    return Math.abs(line.from.x - line.to.x);
+}
+
+// assume there is an intersection
+function getDistanceFromCornerToIntersectionPoint(point, line){
+    if (line.isVertical) {
+        return Math.abs(point.y - line.from.y);
+    }
+    return Math.abs(point.x - line.from.x);
+}
+
 function doesLineHaveIntersectionPoint(intersectionPoints, line){
     var point;
+    var pointOnLine;
     for (var i in intersectionPoints) {
-        point = intersectionPoints;
-
+        point = intersectionPoints[i];
+        pointOnLine = doesPointLieOnLine(point, line);
+        if (pointOnLine) {
+            return {
+                lie: true,
+                point: point
+            }
+        }   
     }
- }
+    return {
+        lie: false,
+        point: null
+    }
+}
+
 
 function doesPointLieOnLine(point, line){
     if (line.isVertical) {
@@ -73,7 +167,6 @@ function doesPointLieOnLine(point, line){
         }
     } else {
         if (line.from.y==point.y) {
-            console.log("you are here");
             return doCheckingPointInBetween(line.from.x, line.to.x, point.x);
         }
     }
@@ -94,7 +187,7 @@ function convertPointsArrayToMap(points){
 }
 
 function getMapKey(point){
-    return new String(point.x.toString() + "-" + point.y.toString());
+    return (point.x.toString() + "-" + point.y.toString());
 }
 
 function findClosestPointOfListOfData(data){
@@ -194,7 +287,6 @@ function doCheckingPointInBetween(point1, point2, checkingPoint){
     var smallerPoint = Math.min(point1, point2);
     var biggerPoint = Math.max(point1, point2);
 
-    console.log(`${smallerPoint}, ${biggerPoint}, ${checkingPoint}`);
     if (smallerPoint <= checkingPoint && checkingPoint <= biggerPoint)    return true;
     return false;
 }
