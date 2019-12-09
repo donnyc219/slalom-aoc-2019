@@ -1,34 +1,39 @@
 var rangeLow = 265275;
 var rangeHigh = 781584;
 /////
-// var i = rangeLow;
-// var c = 0;
-// while (i<=rangeHigh){
-//     if (doesNumberMeetFacts(i)) {
-//         c++;
-//         console.log("%d: %d", i, true);
-//     } else {
-//         console.log("%d: %d", i, false);
-//     }
+var i = rangeLow;
+var c = 0;
+while (i<=rangeHigh){
+    if (doesNumberMeetFacts(i)) c++;
 
-//     i++;
-// }
+    i++;
+}
 
-// console.log(c);
+console.log(">> " + c);
 /////
 
-var m = new Map();
-m.set(0, 1);
-m.set(1, 4);
-m.set(2, 1);
-m.set(3, 2);
-m.set(4, 1);
-// m.set(5, 1);
-discardNonRepeatDigit(m);
-console.log(m);
+var map2 = new Map();
+map2.set("2", "12");
+map2.set("3", "112");
+map2.set("4", "122");
+map2.set("5", "132");
+console.log(map2);
 
-var n = doesNumberMeetFacts(556666);
-console.log(n);
+// map.forEach((value, key, map) => {
+//     console.log(`kkk: ${key}`);
+// });
+var keys = map2.entries();
+while (keys.next()) {
+    console.log(keys.next().value);
+}
+// for (var key of map2) {
+//     // console.log("where are you?");
+//     console.log(`${key}`);
+// }
+
+
+// var n = doesNumberMeetFacts(114456);    // this should pass
+// console.log(n);
 
 function getDigitFromValue(digit, num){
     var noOfZero = 5 - digit;
@@ -86,30 +91,22 @@ function discardNonRepeatDigit(map){
 
 // this map only stores digits which repeat
 function doesAdjMatchingConditionMeet(map){
-    if (map.size==1)    return false;    // there is only 1 matching digits (eg 123444)
-    if (map.size==3)    return true;    // all numbers repeat once (eg 112233)
+    // if (map.size==1)    return false;    // there is only 1 matching digits (eg 123444)
+    // if (map.size==3)    return true;    // all numbers repeat once (eg 112233)
 
     if (map.size>3) throw "Something wrong in the map. It shouldn't have so many key-value pairs!";
 
-    var maxValue = 0;
-    var minValueKey = 10;
-    var maxValueKey = -1;
-
     // remaining is size=2
-    var prevValue = 0;
+    var hasValue2 = false;
     map.forEach((value, key, map) => {
-        if (prevValue==value)   return true;    // 
-        if (maxValue<value) {
-            maxValue = value;
-            minValueKey = maxValueKey;
-            maxValueKey = key;
-        } else {
-            minValueKey = key;
+        if (value==2) {
+            hasValue2 = true;
         }
+        
     });
 
-    if (maxValueKey <= minValueKey) return true;
-    return false;
+    return hasValue2;
+
 }
 
 function incrementValueInMapWithKey(map, key){
