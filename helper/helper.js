@@ -36,6 +36,16 @@ class Helper {
 
     }
 
+    static writeToFileWithData(filename, data){
+        fs.writeFile(filename, data,'utf8', (err) => {
+            // throws an error, you could also catch it here
+            if (err) throw err;
+        
+            // success case, the file was saved
+            console.log('file created');
+        });
+    }
+
 }
 
 module.exports = Helper;
