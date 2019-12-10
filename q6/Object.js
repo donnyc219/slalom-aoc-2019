@@ -1,14 +1,21 @@
 
 class Object {
 
-    Object(name) {
+    constructor(name) {
         this.name = name;   
     }
 
+    orbitTo(object){
+        this.orbitTo = object;
+    }
+
+    setNumberOfTotalOrbits(num){
+        this.totalOrbits = num;
+    }
+
     print(){
-        // console.log(this.name);
         console.log(this.name);
     }
 }
 
-export default Object;
+module.exports = Object;

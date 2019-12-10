@@ -11,8 +11,28 @@ promise.then(arr => {
 
 
 function something(arr) {
-    var obj = new Object('this');
-    obj.print();
+
+    var line, objectCenter;
+    var mapOfObjects = new Map();
+
+    for (var i in arr) {
+        line = arr[i];
+        objectCenter = splitLineToXOrbitsY(line);
+    }
+
+}
+
+function getObjectFromMap(map, key){
+    if (map.has(key))   return map.get(key);
+    return null;
+}
+
+function splitLineToXOrbitsY(line){
+    var arr = line.toString().split(")");
+    return {
+        object: arr[1],
+        center: arr[0]
+    };
 }
 
 
