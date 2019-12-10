@@ -12,28 +12,6 @@ while (i<=rangeHigh){
 console.log(">> " + c);
 /////
 
-var map2 = new Map();
-map2.set("2", "12");
-map2.set("3", "112");
-map2.set("4", "122");
-map2.set("5", "132");
-console.log(map2);
-
-// map.forEach((value, key, map) => {
-//     console.log(`kkk: ${key}`);
-// });
-var keys = map2.entries();
-while (keys.next()) {
-    console.log(keys.next().value);
-}
-// for (var key of map2) {
-//     // console.log("where are you?");
-//     console.log(`${key}`);
-// }
-
-
-// var n = doesNumberMeetFacts(114456);    // this should pass
-// console.log(n);
 
 function getDigitFromValue(digit, num){
     var noOfZero = 5 - digit;
