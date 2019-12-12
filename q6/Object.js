@@ -5,6 +5,8 @@ class Object {
         this.name = name;   
         this.orbitsTo = null;
         this.listOfObjectsSurrounding = [];
+        this.hasChecked = false;
+        this.distanceToOrigin = -1;
     }
 
     getName(){
@@ -29,6 +31,26 @@ class Object {
 
     orbitsToCenter(object){
         this.orbitsTo = object;
+    }
+
+    checked(){
+        return this.hasChecked = true;
+    }
+
+    isChecked(){
+        return this.hasChecked;
+    }
+
+    setDistanceToOrigin(n){
+        this.distanceToOrigin = n;
+    }
+
+    getDistanceToOrigin(){
+        return this.distanceToOrigin;
+    }
+
+    getCenterItOrbits(){
+        return this.orbitsTo;
     }
 
     print(){
