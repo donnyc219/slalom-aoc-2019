@@ -2,11 +2,15 @@ var fs = require("fs");
 var readline = require('readline');
 
 class Helper {
-    // static openFile(filename){
-    //     fs.readFile(filename, function(err, data) {
-    //         console.log("I got you: " + data);
-    //     })
-    // };
+    static readFile(filename){
+        var promise = new Promise((resolve, reject) => {
+            fs.readFile(filename, "utf8", function(err, data) {
+                if (err) reject("unable to read file");
+                resolve(data);
+            });
+        });
+        return promise;
+    };
 
     static getReadlineInterface(filename){
         const readInterface = readline.createInterface({
