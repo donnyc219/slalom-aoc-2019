@@ -40,22 +40,26 @@ const getImageWithInput = (input) => {
         for (var row=0; row<numOfLayer; row++) {
             pixel = getPixel(row, col, input);
             if (pixel==="2")  continue;
-            else if (pixel==="1") {
-                res = res.concat("1");
+            else {
+                res = updateResult(pixel, res);
                 break;
-            } else if (pixel==="0") {
-                res = res.concat(" ");
-                break;
-            } else {
-                throw "Invalid input";
-            }
+            }    
         }
-        if ((col+1)%25==0)
-            res = res.concat("\n");
+        if ((col+1)%25==0)  res = res.concat("\n");
     }
     console.log(res);
 }
     
+const updateResult = (pixel, res) => {
+    if (pixel==="1") {
+        res = res.concat("1");
+    } else if (pixel==="0") {
+        res = res.concat(" ");
+    } else {
+        throw "Invalid input";
+    }
+    return res;
+}
 
 const getNumOf1MultiplyNumOf2 = input => {
     var inputLength = input.length;
