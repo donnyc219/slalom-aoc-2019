@@ -9,16 +9,10 @@ const go = async () => {
     try {
         var asteroids = await getAListOfAsteroids();
 
-        // part1(asteroids);
-        // part2(asteroids);
+        var myAsteroid = part1(asteroids);
 
-        ass = new Asteroid(3, 4);
-        var asteroid;
-        for (var i in asteroids) {
-            asteroid = asteroids[i];
-            var d = ass.distanceFrom(asteroid);
-            console.log(`${asteroid.getID()}: ${d}`);
-        }
+        part2(asteroids, myAsteroid);
+
 
     } catch (error) {
         console.log(error);
@@ -28,7 +22,9 @@ const go = async () => {
 const getAngleInDegree = (center, point) => {
     var {x, y} = point;
     x -= center.x;
-    y -= center.y;
+    y = center.y - point.y;
+
+    // console.log(`${point.x}, ${point.y} changed to ${x}, ${y}`);
 
     var rad = Math.atan(x/y);
     var degree = toDegree(rad);
@@ -42,18 +38,45 @@ const toDegree = (radian) => {
     return radian * (180/Math.PI);
 }
 
-const part2 = (asteroids) => {
-    var center = {
-        x: 0,
-        y: 0
+const part2 = (asteroids, myAsteroid) => {
+
+    var asteroid;
+    var angle, distance;
+    var map = new Map();
+
+    for (var i in asteroids) {
+        asteroid = asteroids[i];
+        if (asteroid.same(myAsteroid))  continue;
+
+        myAsteroid.distanceFrom(asteroid);
+        angle = getAngleInDegree(myAsteroid.getPoints(), asteroid.getPoints());
+        angle = roundToFiveDecimal(angle);
+
+        distance = myAsteroid.distanceFrom(asteroid);
+        distance = roundToFiveDecimal(distance);
+
+        addInfoToMap(map, distance, angle, asteroid);
+
+
     }
-    var point = {
-        x: 100,
-        y: 0
+    console.log(map);
+
+}
+
+const addInfoToMap = (map, distance, angle, asteroid) => {
+    var arr;
+    if (map.has(angle)) {
+        arr = map.get(angle);
+    } else {
+        arr = [];
     }
 
-    var n = getAngleInDegree(center, point);
-    console.log(n);
+    var newObject = {
+        asteroid: asteroid,
+        distance: distance
+    }
+    arr.push(newObject);
+    map.set(angle, arr);
 }
 
 const part1 = (asteroids) => {
@@ -71,7 +94,8 @@ const part1 = (asteroids) => {
             }
         }
     }
-    getPart1Answer(asteroids);
+    return getPart1Answer(asteroids);
+
 }
 
 const addSlope = (slope, asteroid, checkAsteroid) => {
@@ -98,6 +122,7 @@ const getPart1Answer = (asteroids) => {
         }
     }
     console.log(`${asteroids[targetIndex].getID()}: ${asteroids[targetIndex].getSizeOfSet()}`);
+    return asteroids[targetIndex];
 }
 
 const roundToFiveDecimal = (num) => {
