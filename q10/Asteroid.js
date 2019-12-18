@@ -46,7 +46,7 @@ class Asteroid {
         };
     }
 
-    distanceFrom(asteroid){
+    distanceTo(asteroid){
         return Math.sqrt(Math.pow(this.x - asteroid.getX(),2) + Math.pow(this.y - asteroid.getY(),2));
     }
 }

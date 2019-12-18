@@ -40,7 +40,90 @@ const toDegree = (radian) => {
 
 const part2 = (asteroids, myAsteroid) => {
 
-    var asteroid;
+    console.log(asteroids.length);
+    var map = getMapOfAsteroidsGroupedWithAngle(asteroids, myAsteroid);
+    
+    var sortedAngles = getSortedArrayOfAngle(map);
+    map = sortAsteroidsByDistance(map);
+    var sortedAngles = getArrayOfSortedDistance(map, sortedAngles);
+    pop(sortedAngles, 35);
+    // console.log(sortedAngles);
+
+    
+    // console.log("---------------------");
+    // console.log(sortedAngles);
+
+    
+}
+
+const pop = (arr, num) => {
+    var length = 0;
+    for (var i in arr) {
+        length += arr[i].length;
+        console.log(`${i}: ${arr[i].length}`);
+
+    }
+    if (num>length) throw "Number too big. Not able to pop this element";
+
+    var subarray;
+    for (var i=0; i<num; i++) {
+        subarray = getNextAvailableAsteroidOnOrAfterIndex(i, arr);
+        // console.log(subarray);
+        // console.log(`${i}: ${subarray.asteroid.getID()}`);
+    }
+}
+
+const getNextAvailableAsteroidOnOrAfterIndex = (i, array) => {
+    var arr;
+    var length = array.length;
+
+    while (true) {
+        arr = array[i];
+        if (arr==null || arr.length==0) {
+            i = (++i)%length;
+        } else {
+            console.log(i);
+            var asteroid = arr.shift();
+            return asteroid;
+        }
+
+    }
+}
+
+const getArrayOfSortedDistance = (map, arr) => {
+
+    for (var key in arr) {
+        arr[key] = map.get(arr[key]);
+    }
+    return arr;
+}
+
+const getSortedArrayOfAngle = (map) => {
+    var arr = Array.from(map.keys());
+    arr.sort((a, b) => {
+        return a - b;
+    });
+    return arr;
+}
+
+const sortAsteroidsByDistance = (map) => {
+    var arr;
+    map.forEach((value, key, map) => {
+        arr = sortSingleArrayOfAsteroids(value);
+        map.set(key, arr);
+    }); 
+    return map;
+}
+
+const sortSingleArrayOfAsteroids = (arr) => {
+    arr.sort((a, b) => {
+        return a.distance - b.distance;
+    });
+    // console.log(arr);
+    return arr;
+}
+
+const getMapOfAsteroidsGroupedWithAngle = (asteroids, myAsteroid) => {
     var angle, distance;
     var map = new Map();
 
@@ -48,19 +131,16 @@ const part2 = (asteroids, myAsteroid) => {
         asteroid = asteroids[i];
         if (asteroid.same(myAsteroid))  continue;
 
-        myAsteroid.distanceFrom(asteroid);
+        myAsteroid.distanceTo(asteroid);
         angle = getAngleInDegree(myAsteroid.getPoints(), asteroid.getPoints());
         angle = roundToFiveDecimal(angle);
 
-        distance = myAsteroid.distanceFrom(asteroid);
+        distance = myAsteroid.distanceTo(asteroid);
         distance = roundToFiveDecimal(distance);
 
         addInfoToMap(map, distance, angle, asteroid);
-
-
     }
-    console.log(map);
-
+    return map;
 }
 
 const addInfoToMap = (map, distance, angle, asteroid) => {
