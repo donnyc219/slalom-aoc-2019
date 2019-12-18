@@ -46,7 +46,7 @@ const part2 = (asteroids, myAsteroid) => {
     var sortedAngles = getSortedArrayOfAngle(map);
     map = sortAsteroidsByDistance(map);
     var sortedAngles = getArrayOfSortedDistance(map, sortedAngles);
-    pop(sortedAngles, 35);
+    pop(sortedAngles, 200);
     // console.log(sortedAngles);
 
     
@@ -69,7 +69,7 @@ const pop = (arr, num) => {
     for (var i=0; i<num; i++) {
         subarray = getNextAvailableAsteroidOnOrAfterIndex(i, arr);
         // console.log(subarray);
-        // console.log(`${i}: ${subarray.asteroid.getID()}`);
+        console.log(`${i}: ${subarray.asteroid.getID()}`);
     }
 }
 
@@ -77,12 +77,14 @@ const getNextAvailableAsteroidOnOrAfterIndex = (i, array) => {
     var arr;
     var length = array.length;
 
+    i = i%length;
+
     while (true) {
         arr = array[i];
         if (arr==null || arr.length==0) {
             i = (++i)%length;
         } else {
-            console.log(i);
+            // console.log(i);
             var asteroid = arr.shift();
             return asteroid;
         }
