@@ -5,3 +5,5 @@ Opcode 4 outputs the value of its only parameter. For example, the instruction 4
 
 mode 0, position mode, which causes the parameter to be interpreted as a position - if the parameter is 50, its value is the value stored at address 50 in memory. Until now, all parameters have been in position mode.
 mode 1, immediate mode. In immediate mode, a parameter is interpreted as a value - if the parameter is 50, its value is simply 50.
+
+99 - finish
