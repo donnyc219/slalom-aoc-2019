@@ -54,6 +54,7 @@ const getOutputWithNumberString = (numStr, amplifiers) => {
     for (var i in numStr) {
         amplifier = amplifiers[i];
         prevOutput = amplifier.runWithInput([numStr[i], prevOutput]);
+        // console.log(`prevOutput: ${prevOutput}`);
     }
     return prevOutput;
 }
@@ -67,8 +68,17 @@ const part1 = () => {
         numStr = arr[i];
         output = getOutputWithNumberString(numStr, amplifiers);
         resArray.push(output);
+        resetAmplifier();
     }
+
+
     return Math.max(...resArray);
+}
+
+const resetAmplifier = () => {
+    for (var i in amplifiers) {
+        amplifiers[i].resetPointer();
+    }
 }
 
 var amplifiers = [];
@@ -79,8 +89,8 @@ amplifiers.push(new Amplifier("D"));
 amplifiers.push(new Amplifier("E"));
 
 
-
-
+// var amp = amplifiers[0];
+// amp.runWithInput([0, 0]);
 
 var kk = part1();
 console.log(kk);

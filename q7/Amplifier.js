@@ -2,8 +2,7 @@ var data = "3,8,1001,8,10,8,105,1,0,0,21,46,67,76,101,118,199,280,361,442,99999,
 // var data = "3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5";
 
 
-
-var currentPtr = 0;
+var dataArray = [];
 
 const upgradeArray = (arr) => {
     arr.getValueOfAddressOfIndex = function(index) {
@@ -83,7 +82,7 @@ const multiply = (val1, val2) => {
 }
 
 const handleInstruction = (arr, ptr, inputs) => {
-    // console.log(`instruction: ${arr[ptr]}`);
+    // console.log(`instruction: ${arr[ptr]}, ${ptr}`);
     var instruction = arr[ptr];
     if (instruction.length>4)   throw "Instruction too long";
 
@@ -180,37 +179,52 @@ const handleInput = (arr, input, ptr) => {
     return arr;
 }
 
+const prepare = () => {
+    dataArray = data.split(",");
+    upgradeArray(dataArray);
+}
+
+const isWaitingForInput = (arr, ptr) => {
+    return (arr[ptr]=="3" && ptr>0);
+}
 
 class Amplifier {
 
     constructor(name) {
         this.name = name;
-        this.prepare();
+        this.pointer = 0;
+        prepare();
     }
 
     getName(){
         return this.name;
     }
 
-    prepare() {
-        this.arr = data.split(",");
-        upgradeArray(this.arr);
-    }
-
     runWithInput(inputs) {
 
-        var arr = this.arr;
-        var ptr = 0;
+        var arr = dataArray;
+        var ptr = this.pointer;
         var res;
         var tempResult;
     
-        while (ptr<arr.length) {
+        while (ptr<arr.length/* && !isWaitingForInput(arr, ptr)*/) {
             res = handleInstruction(arr, ptr, inputs);
             arr = res.arr;
             ptr = res.newPtr;
             tempResult = (res.finalResult!=null)? res.finalResult: tempResult;
         }
+        // console.log(ptr)
+        this.pointer = ptr;
         return tempResult;
+    }
+
+    resetPointer(){
+        this.pointer = 0;
+    }
+
+
+    getOutput() {
+        return this.output;
     }
 
 }
