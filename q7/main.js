@@ -127,18 +127,18 @@ var ampC = amplifiers[2];
 var ampD = amplifiers[3];
 var ampE = amplifiers[4];
 
-var n = ampA.runWithInput([0, 9]);
-n = ampB.runWithInput([n, 8]);
-n = ampC.runWithInput([n, 7]);
-n = ampD.runWithInput([n, 6]);
-n = ampE.runWithInput([n, 5]);
+var n = ampA.runWithInput([9, 0]);
+n = ampB.runWithInput([7, n]);
+n = ampC.runWithInput([8, n]);
+n = ampD.runWithInput([5, n]);
+n = ampE.runWithInput([6, n]);
 
+console.log(`output after 5 amps: ${n}`);
 n = ampA.runWithInput([n]);
-// n = ampB.runWithInput([n]);
-// n = ampC.runWithInput([n]);
-// n = ampD.runWithInput([n]);
-// n = ampE.runWithInput([n]);
+n = ampB.runWithInput([n]);
+n = ampC.runWithInput([n]);
+n = ampD.runWithInput([n]);
+n = ampE.runWithInput([n]);
 
-console.log(n);
 // var kk = part1();
 // console.log(kk);
