@@ -67,7 +67,8 @@ const getOutputWithNumberStringV2 = (numStr, amplifiers) => {
     while (!areAllAmplifiersHalted()) {
         for (var i=0; i<numStr.length; i++) {
             amplifier = amplifiers[i];
-            // console.log(`name: ${amplifier.getName()}, pointer: ${amplifier.getPointer()}`);
+            
+            // console.log(`name: ${amplifier.getName}, pointer: ${amplifier.getPointer()}`);
             // console.log(`numStr: ${numStr}, i: ${i}, ${amplifier}`);
             if (k==0)
                 prevOutput = amplifier.runWithInput([numStr[i], prevOutput]);
