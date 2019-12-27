@@ -62,21 +62,21 @@ const getOutputWithNumberString = (numStr, amplifiers) => {
 const getOutputWithNumberStringV2 = (numStr, amplifiers) => {
     var prevOutput = 0;
     var amplifier;
+    var k = 0;
 
     while (!areAllAmplifiersHalted()) {
         for (var i=0; i<numStr.length; i++) {
             amplifier = amplifiers[i];
+            // console.log(`name: ${amplifier.getName()}, pointer: ${amplifier.getPointer()}`);
             // console.log(`numStr: ${numStr}, i: ${i}, ${amplifier}`);
-            prevOutput = amplifier.runWithInput([numStr[i], prevOutput]);
+            if (k==0)
+                prevOutput = amplifier.runWithInput([numStr[i], prevOutput]);
+            else
+                prevOutput = amplifier.runWithInput([prevOutput]);
             // console.log(`prevOutput: ${prevOutput}`);
+            amplifiers[i] = amplifier;
         }
-        
-        // for (var i in numStr) {
-        //     console.log(`i: ${i}`);
-        //     amplifier = amplifiers[i];
-        //     prevOutput = amplifier.runWithInput([numStr[i], prevOutput]);
-        //     // console.log(`prevOutput: ${prevOutput}`);
-        // }
+        k++;
     }
 
     return prevOutput;
@@ -91,7 +91,7 @@ const areAllAmplifiersHalted = () => {
     return true;
 }
 
-const part1 = () => {
+const part1 = (amplifiers) => {
     var arr = getPossibleCombinations(set);
     var numStr;
     var output;
@@ -121,24 +121,24 @@ amplifiers.push(new Amplifier("D"));
 amplifiers.push(new Amplifier("E"));
 
 
-var ampA = amplifiers[0];
-var ampB = amplifiers[1];
-var ampC = amplifiers[2];
-var ampD = amplifiers[3];
-var ampE = amplifiers[4];
+// var ampA = amplifiers[0];
+// var ampB = amplifiers[1];
+// var ampC = amplifiers[2];
+// var ampD = amplifiers[3];
+// var ampE = amplifiers[4];
 
-var n = ampA.runWithInput([9, 0]);
-n = ampB.runWithInput([7, n]);
-n = ampC.runWithInput([8, n]);
-n = ampD.runWithInput([5, n]);
-n = ampE.runWithInput([6, n]);
+// var n = ampA.runWithInput([9, 0]);
+// n = ampB.runWithInput([7, n]);
+// n = ampC.runWithInput([8, n]);
+// n = ampD.runWithInput([5, n]);
+// n = ampE.runWithInput([6, n]);
 
-console.log(`output after 5 amps: ${n}`);
-n = ampA.runWithInput([n]);
-n = ampB.runWithInput([n]);
-n = ampC.runWithInput([n]);
-n = ampD.runWithInput([n]);
-n = ampE.runWithInput([n]);
+// console.log(`output after 5 amps: ${n}`);
+// n = ampA.runWithInput([n]);
+// n = ampB.runWithInput([n]);
+// n = ampC.runWithInput([n]);
+// n = ampD.runWithInput([n]);
+// n = ampE.runWithInput([n]);
 
-// var kk = part1();
-// console.log(kk);
+var kk = part1(amplifiers);
+console.log(kk);

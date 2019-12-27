@@ -2,7 +2,7 @@
 var data = "3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5";
 // var data = "3,52,1001,52,-5,52,3,53,1,52,56,54,1007,54,5,55,1005,55,26,1001,54,-5,54,1105,1,12,1,53,54,53,1008,54,0,55,1001,55,1,55,2,53,55,53,4,53,1001,56,-1,56,1005,56,6,99,0,0,0,0,10";
 
-var dataArray = [];
+// var dataArray = [];
 
 const upgradeArray = (arr) => {
     arr.getValueOfAddressOfIndex = function(index) {
@@ -102,8 +102,8 @@ const handleInstruction = (arr, ptr, inputs) => {
             newPtr = (ptr+4);
             break;
         case 3:
-            console.log(`input: ${arr[ptr]}, ${inputs[0]}`);
-            handleInput(arr, inputs.shift(), ptr);
+            // console.log(`input: ${arr[ptr]}, ${inputs[0]}`);
+            arr = handleInput(arr, inputs.shift(), ptr);
             newPtr = (ptr+2);
             break;
         case 4:
@@ -124,7 +124,7 @@ const handleInstruction = (arr, ptr, inputs) => {
             newPtr = handleEquals(arr, ptr, mode1, mode2);
             break;
         case 99:
-            console.log(`instruction: ${instruction}, inputs: ${inputs.length}`);
+            // console.log(`instruction: ${instruction}, inputs: ${inputs.length}`);
             newPtr = 99999;
             // console.log(arr);
             break;
@@ -176,15 +176,15 @@ const getLastTwoDigit = (instruction) => {
 }
 
 const handleInput = (arr, input, ptr) => {
-    var saveToAddress = arr[ptr+1];
+    var saveToAddress = parseInt(arr[ptr+1]);
     arr[saveToAddress] = input;
     return arr;
 }
 
-const prepare = () => {
-    dataArray = data.split(",");
-    upgradeArray(dataArray);
-}
+// const prepare = () => {
+//     dataArray = data.split(",");
+//     upgradeArray(dataArray);
+// }
 
 // const isWaitingForInput = (arr, ptr) => {
 //     return (arr[ptr]=="3" && ptr>0);
@@ -196,7 +196,14 @@ class Amplifier {
         this.name = name;
         this.pointer = 0;
         this.isHalted = false;
-        prepare();
+        this.prepare();
+        
+        console.log(`init ${this.name}`);
+    }
+
+    prepare() {
+        this.dataArray = data.split(",");
+        upgradeArray(this.dataArray);
     }
 
     getName(){
@@ -205,9 +212,11 @@ class Amplifier {
 
     runWithInput(inputs) {
 
-        var arr = dataArray;
+        // if (this.name==="A") console.log(dataArray);
+
+        var arr = this.dataArray;
         var ptr = this.pointer;
-        console.log(`${this.name}: setting pointer to ${this.pointer}, ${arr[ptr]}, ${inputs.length}`);
+        // console.log(`${this.name}: setting pointer to ${this.pointer}, ${arr[ptr]}, ${inputs.length}`);
         var res;
         var tempResult;
     
@@ -221,12 +230,16 @@ class Amplifier {
         this.pointer = ptr;
         if (ptr==99999) this.isHalted = true;
 
-        console.log(`name: ${this.name}, new ptr: ${ptr}`);
+        // console.log(`name: ${this.name}, new ptr: ${ptr}`);
         return tempResult;
     }
 
     isAmplifierHalted() {
         return this.isHalted;
+    }
+
+    getPointer(){
+        return this.pointer;
     }
 
     resetPointer(){
