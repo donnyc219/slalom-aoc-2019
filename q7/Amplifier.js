@@ -102,7 +102,7 @@ const handleInstruction = (arr, ptr, inputs) => {
             newPtr = (ptr+4);
             break;
         case 3:
-            console.log(`input: ${arr[ptr]}, ${inputs[0]}`);
+            // console.log(`input: ${arr[ptr]}, ${inputs[0]}`);
             handleInput(arr, inputs.shift(), ptr);
             newPtr = (ptr+2);
             break;
@@ -124,7 +124,7 @@ const handleInstruction = (arr, ptr, inputs) => {
             newPtr = handleEquals(arr, ptr, mode1, mode2);
             break;
         case 99:
-            console.log(`instruction: ${instruction}, inputs: ${inputs.length}`);
+            // console.log(`instruction: ${instruction}, inputs: ${inputs.length}`);
             newPtr = 99999;
             // console.log(arr);
             break;
@@ -207,7 +207,7 @@ class Amplifier {
 
         var arr = dataArray;
         var ptr = this.pointer;
-        console.log(`${this.name}: setting pointer to ${this.pointer}, ${arr[ptr]}, ${inputs.length}`);
+        // console.log(`${this.name}: setting pointer to ${this.pointer}, ${arr[ptr]}, ${inputs.length}`);
         var res;
         var tempResult;
     
