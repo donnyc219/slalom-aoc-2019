@@ -1,18 +1,8 @@
 var Amplifier = require("./Amplifier");
 
-var set = new Set();
-set.add("5");
-set.add("6");
-set.add("7");
-set.add("8");
-set.add("9");
 
-// var set = new Set();
-// set.add("0");
-// set.add("1");
-// set.add("2");
-// set.add("3");
-// set.add("4");
+
+
 
 
 const getPossibleCombinationsStartingWith = (numStr, set) => {
@@ -28,11 +18,11 @@ const getPossibleCombinationsStartingWith = (numStr, set) => {
     return res;
 }
 const getPossibleCombinations = (set) => {
-    var arr = getPossibleCombinationsStartingWith("5", set);
-    arr = arr.concat(getPossibleCombinationsStartingWith("6", set));
-    arr = arr.concat(getPossibleCombinationsStartingWith("7", set));
-    arr = arr.concat(getPossibleCombinationsStartingWith("8", set));
-    arr = arr.concat(getPossibleCombinationsStartingWith("9", set));
+
+    var arr = [];
+    set.forEach((v1, v2, set) => {
+        arr = arr.concat(getPossibleCombinationsStartingWith(v1, set));
+    });
     return arr;
 }
 
@@ -49,6 +39,8 @@ const getSetOfRemainingDigits = (numStr, possibleDigitsSet) => {
 }
 
 const getOutputWithNumberString = (numStr, amplifiers) => {
+
+
     var prevOutput = 0;
     var amplifier;
     for (var i in numStr) {
@@ -60,6 +52,8 @@ const getOutputWithNumberString = (numStr, amplifiers) => {
 }
 
 const getOutputWithNumberStringV2 = (numStr, amplifiers) => {
+
+
     var prevOutput = 0;
     var amplifier;
     var k = 0;
@@ -101,10 +95,8 @@ const part1 = (amplifiers) => {
         numStr = arr[i];
         output = getOutputWithNumberStringV2(numStr, amplifiers);
         resArray.push(output);
-        // resetAmplifier();
+        resetAmplifier();
     }
-
-
     return Math.max(...resArray);
 }
 
@@ -113,6 +105,10 @@ const resetAmplifier = () => {
         amplifiers[i].resetPointer();
     }
 }
+
+// var set = new Set("0", "1", "2", "3", "4");
+var set = new Set(["5", "6", "7", "8", "9"]);
+
 
 var amplifiers = [];
 amplifiers.push(new Amplifier("A"));
