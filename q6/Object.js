@@ -1,6 +1,7 @@
 
 class Object {
 
+
     constructor(name) {
         this.name = name;   
         this.orbitsTo = null;

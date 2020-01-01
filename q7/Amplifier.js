@@ -3,6 +3,7 @@
 
 
 class Amplifier {
+
     _upgradeArray(arr) {
         arr.getValueOfAddressOfIndex = function(index) {
             var n = this[index];
@@ -72,6 +73,7 @@ class Amplifier {
         }
     }
     
+
     _add(val1, val2) {
         return parseInt(val1) + parseInt(val2);
     }

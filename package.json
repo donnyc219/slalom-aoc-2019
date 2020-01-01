@@ -1,0 +1,16 @@
+{
+  "name": "slalom-aoc-2019-with-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node app"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}
